@@ -1,0 +1,30 @@
+{
+  "name": "coderhouse-blog",
+  "version": "0.0.1",
+  "description": "Coderhouse blog para consolidad todos los temas vistos en la cursada",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lopezoscar/coderhouse-blog"
+  },
+  "keywords": [
+    "Blog",
+    "Coderhouse",
+    "Nodejs"
+  ],
+  "author": "Oscar Lopez",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/lopezoscar/coderhouse-blog/issues"
+  },
+  "homepage": "https://github.com/lopezoscar/coderhouse-blog",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "express-handlebars": "^2.0.1",
+    "mongojs": "^2.0.0"
+  }
+}
