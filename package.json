@@ -25,6 +25,8 @@
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
-    "mongojs": "^2.0.0"
+    "express-vhost": "^0.2.0",
+    "mongojs": "^2.0.0",
+    "vhost": "^3.0.2"
   }
 }
