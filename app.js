@@ -1,15 +1,7 @@
 "use strict";
 
-
-
-//Load APP Libraries
-global.Blog = require("./lib/Blog")(db);
-global.Users = require("./lib/Users")(db);
-global.Posts = require("./lib/Posts")(db);
-
 //Load Libraries
 var express = require("express");
-var app = express();
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var mongojs = require("mongojs");
@@ -18,8 +10,14 @@ var vhost = require('express-vhost');
 //Create db instance
 var CONFIG = require("./db");
 var db = mongojs("mongodb://"+CONFIG.host+":"+CONFIG.port+"/"+CONFIG.db,CONFIG.collections);
+//Load APP Libraries
+global.Blog = require("./lib/Blog")(db);
+global.Users = require("./lib/Users")(db);
+global.Posts = require("./lib/Posts")(db);
 
 function buildAPP(){
+    var app = express();
+
     //Set template engine
     app.set('view engine','handlebars');
     app.engine('html',exphbs());
