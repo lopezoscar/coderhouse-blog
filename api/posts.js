@@ -3,6 +3,17 @@
 var express = require("express");
 var router  = express.Router();
 
+router.get('/',function(req,res){
+    var blogID = req.options.blog._id;
+    Posts.getPosts({blog:blogID},function(err,posts){
+       if(err){
+           res.json(err);
+       }else{
+           res.json(posts);
+       }
+    });
+});
+
 router.get('/:post',function(req,res){
     Posts.getPostByLink(req.params,function(err,post){
         if(err){

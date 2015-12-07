@@ -15,8 +15,9 @@ global.Blog = require("./lib/Blog")(db);
 global.Users = require("./lib/Users")(db);
 global.Posts = require("./lib/Posts")(db);
 
-function buildAPP(){
+function buildAPP(blog){
     var app = express();
+    var template = blog.template || "default";
 
     //Set template engine
     app.set('view engine','handlebars');
@@ -24,7 +25,7 @@ function buildAPP(){
 
     //Set static folders
     app.use(express.static('templates'));
-    app.use(express.static('public/default'));
+    app.use(express.static('public/'+template));
 
     //Body Parser
     app.use(bodyParser.json());
@@ -35,9 +36,21 @@ function buildAPP(){
     app.use("/users",require("./api/users"));
     app.use("/blog" ,require("./api/blog"));
 
+    //Middleware
+    app.use(function(req,res,next){
+        req.options = {
+            layout:template+'/layout.html',
+            blog:blog
+        };
+        next();
+    });
+
     //One Page only
     app.get('/',function(req,res){
-        res.render('default/index.html',{layout:false});
+        res.render('default/index.html',req.options);
+    });
+    app.get('/post',function(req,res){
+        res.render('default/post.html',req.options);
     });
 
     return app;
@@ -52,14 +65,14 @@ server.listen(process.argv[2],function(){
     console.log("SERVER UP");
 });
 
-vhost.register("blog.com", buildAPP());
+vhost.register("blog.com", buildAPP({template:"default"}));
 
-db.blogs.find({},{domain:1},function(err,blogs){
+db.blogs.find({},function(err,blogs){
     if(err){
         console.log("DOMAINS NOT FOUND");
     }else{
         for(var i = 0; i < blogs.length; i++){
-            vhost.register(blogs[i].domain, buildAPP());
+            vhost.register(blogs[i].domain, buildAPP(blogs[i]));
         }
     }
 });
