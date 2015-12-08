@@ -21,7 +21,7 @@ function buildAPP(blog){
 
     //Set template engine
     app.set('view engine','handlebars');
-    app.engine('html',exphbs());
+    app.engine('hbs',exphbs());
 
     //Set static folders
     app.use(express.static('templates'));
@@ -40,17 +40,37 @@ function buildAPP(blog){
     app.use(function(req,res,next){
         req.options = {
             layout:template+'/layout.html',
-            blog:blog
+            blog:blog,
+            name:blog.name,
+            title:blog.title,
+            subtitle:blog.subtitle
         };
         next();
     });
 
     //One Page only
     app.get('/',function(req,res){
-        res.render('default/index.html',req.options);
+        Posts.getPosts({blog:blog._id},function(err,posts){
+            console.log(err,posts);
+            req.options.posts = posts;
+
+            res.render('default/index.hbs',req.options);
+        });
     });
-    app.get('/post',function(req,res){
-        res.render('default/post.html',req.options);
+    app.get('/post/:link',function(req,res){
+        var params = {
+            link:req.params.link,
+            blog:req.options.blog._id
+        };
+        Posts.getPostByLink(params,function(err,post){
+            console.log(err,post);
+            req.options.post = post;
+            req.options.name = post.title;
+            req.options.title = post.title;
+            req.options.subtitle = post.subtitle;
+
+            res.render('default/post.hbs',req.options);
+        });
     });
 
     return app;

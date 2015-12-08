@@ -1,0 +1,28 @@
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {{#each posts}}
+            <div class="post-preview">
+                <a href="/post/{{link}}">
+                    <h2 class="post-title">
+                        {{title}}
+                    </h2>
+                    <h3 class="post-subtitle">
+                        {{subtitle}}
+                    </h3>
+                </a>
+                <p class="post-meta">Posted by <a href="#">{{author}}</a> on {{created_date}}</p>
+            </div>
+            <hr>
+            {{/each}}
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="next">
+                    <a href="#">Older Posts &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr>
