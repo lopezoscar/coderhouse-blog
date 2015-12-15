@@ -14,7 +14,7 @@ router.get('/',function(req,res){
     });
 });
 
-router.get('/:post',function(req,res){
+router.get('/:blog/:post',function(req,res){
     Posts.getPostByLink(req.params,function(err,post){
         if(err){
             res.json(err);
@@ -23,6 +23,8 @@ router.get('/:post',function(req,res){
         }
     });
 });
+
+
 
 router.post('/add',function(req,res){
     Posts.add(req.body,function(err,post){
